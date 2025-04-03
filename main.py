@@ -160,13 +160,54 @@ def visualizar_laberinto_pygame(laberinto, estado_actual, problema, screen, font
 
 
 def dibujar_arbol_busqueda(arbol):
-    plt.figure(figsize=(12, 8))
-    pos = nx.spring_layout(arbol, seed=42)
-    nx.draw(arbol, pos, with_labels=True, node_size=1000, node_color='skyblue',
-            font_size=8, font_weight='bold', arrows=True)
+    plt.figure(figsize=(15, 10))
+
+    # Crear un diseño jerárquico por niveles
+    pos = nx.drawing.nx_agraph.graphviz_layout(arbol, prog='dot', args='-Grankdir=TB')
+
+    # Dibujar nodos y aristas con estilo
+    nx.draw_networkx_nodes(
+        arbol, pos,
+        node_size=1500,
+        node_color='#FFD700',  # Dorado
+        alpha=0.9,
+        linewidths=2,
+        edgecolors='black'
+    )
+
+    nx.draw_networkx_edges(
+        arbol, pos,
+        width=2,
+        alpha=0.6,
+        edge_color='gray',
+        arrowsize=20
+    )
+
+    # Etiquetas de nodos más claras
+    nx.draw_networkx_labels(
+        arbol, pos,
+        font_size=8,
+        font_family='sans-serif',
+        font_weight='bold'
+    )
+
+    # Etiquetas de acciones en las aristas
     edge_labels = nx.get_edge_attributes(arbol, 'action')
-    nx.draw_networkx_edge_labels(arbol, pos, edge_labels=edge_labels)
-    plt.title("Árbol de Búsqueda Generado")
+    nx.draw_networkx_edge_labels(
+        arbol, pos,
+        edge_labels=edge_labels,
+        font_size=8,
+        font_color='red'
+    )
+
+    plt.title("Árbol de Búsqueda (Organizado Jerárquicamente)", fontsize=14)
+    plt.axis('off')
+
+    # Añadir cuadrícula de fondo para mejor orientación
+    ax = plt.gca()
+    ax.margins(0.1)
+    plt.tight_layout()
+
     plt.show()
 
 
