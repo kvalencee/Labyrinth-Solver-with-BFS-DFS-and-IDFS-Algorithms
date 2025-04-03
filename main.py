@@ -191,7 +191,6 @@ def dibujar_arbol_busqueda(arbol):
         font_weight='bold'
     )
 
-    # Etiquetas de acciones en las aristas
     edge_labels = nx.get_edge_attributes(arbol, 'action')
     nx.draw_networkx_edge_labels(
         arbol, pos,
